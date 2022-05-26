@@ -7,6 +7,7 @@ export default function Home() {
     <div>
       <h1>Maglo-app</h1>
       <p>Hi from Tobias</p>
+      <p>Hello Right back. Just testing gitpull</p>
     </div>
   );
 }
