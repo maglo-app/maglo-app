@@ -1,8 +1,12 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import styles from '../styles/Home.module.css'
+import Head from "next/head";
+import Image from "next/image";
+import styles from "../styles/Home.module.css";
 
 export default function Home() {
   return (
-      <h1>Maglo-app</h1>  )
+    <div>
+      <h1>Maglo-app</h1>
+      <p>Hi from Tobias</p>
+    </div>
+  );
 }
