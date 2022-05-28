@@ -4,10 +4,17 @@ import styles from "../styles/Home.module.css";
 
 export default function Home() {
   return (
-    <div>
-      <h1>Maglo-app</h1>
-      <p>Hi from Tobias</p>
-      <p>Hello Right back. Just testing gitpull</p>
-    </div>
+    <>
+      <Head>
+        <title>
+          Front page
+        </title>
+      </Head>
+      <div>
+        <h1>Maglo-app</h1>
+        <p>Hi from Tobias</p>
+        <p>Hello Right back. Just testing gitpull</p>
+      </div>
+    </>
   );
 }
