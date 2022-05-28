@@ -1,7 +1,7 @@
 function Navbar(props) {
     return ( 
         <nav>
-
+            
         </nav>
      );
 }
