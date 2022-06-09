@@ -36,7 +36,7 @@ export const UpdateProfile = (props) => {
     Promise.all(promises)
       .then(() => {
         console.log("Succesfully updated");
-        <Link href="/expenses"> </Link>;
+        router.push("/expenses");
       })
       .catch(() => {
         setError("Failed to update account");
@@ -77,7 +77,10 @@ export const UpdateProfile = (props) => {
         </button>
       </form>
       <p>Want to cancel?</p>
-      <Link href="/expenses"> Cancel </Link>;
+      <Link href="/expenses">
+        <p className="Link">Cancel</p>
+      </Link>
+      ;
     </div>
   );
 };

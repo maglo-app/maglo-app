@@ -19,3 +19,11 @@ a {
   color: red;
   background-color: pink;
 } */
+
+.Link {
+  color: red;
+}
+
+.Link:hover {
+  cursor: pointer;
+}

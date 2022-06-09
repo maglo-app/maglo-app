@@ -51,7 +51,10 @@ export const ForgotPassword = (props) => {
         </button>
       </form>
       <p>Go back?</p>
-      <Link href="/login"> Go back to Login </Link>;
+      <Link href="/login">
+        <p className="Link">Go back to Login</p>
+      </Link>
+      ;
     </div>
   );
 };

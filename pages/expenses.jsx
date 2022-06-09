@@ -1,13 +1,11 @@
 import { db } from "../firebase-config";
-import { collection, getDocs } from "firebase/firestore";
+import { addDoc, collection, getDocs, setDoc } from "firebase/firestore";
 import { useAuth } from "../Contexts/AuthContext";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 
-export const Expenses = ({ fbExpenseData }) => {
-  console.log("fbExpenseData");
-  console.log(fbExpenseData);
+export const Expenses = (props) => {
   // ! States & Refs
   const [newName, setNewName] = useState("");
   const [newBusiness, setNewBusiness] = useState("");
@@ -18,6 +16,12 @@ export const Expenses = ({ fbExpenseData }) => {
   console.log(currentUser);
   //   const [userData, setUserData] = useState({ expenses: [] });
   const [userExpenses, setUserExpenses] = useState([]);
+  const userExpensesCollectionRef = collection(
+    db,
+    "users",
+    currentUser.uid,
+    "userExpenses"
+  );
 
   // ! handle Logout
   async function handleLogout() {
@@ -32,12 +36,28 @@ export const Expenses = ({ fbExpenseData }) => {
     }
   }
 
-  function handleLoad() {
+  async function handleLoad() {
+    // @ retrieving Data
+    // @ This could be done server sided but I need to figure out how to get access to the currentUser.uid there to access the right doc
+    const fireBaseResponse = await getDocs(userExpensesCollectionRef);
+    const fbExpenseData = fireBaseResponse.docs.map((el) => {
+      return { ...el.data(), id: el.id };
+    });
+
+    // @ Setting state with data from Firebase
     if (fbExpenseData.length > 0) {
       setUserExpenses([...fbExpenseData]);
     } else {
       return;
     }
+  }
+
+  async function handleButton() {
+    await addDoc(userExpensesCollectionRef, {
+      business: newBusiness,
+      name: newName,
+    });
+    await handleLoad();
   }
 
   // ! use effect to get the data from the api
@@ -56,7 +76,7 @@ export const Expenses = ({ fbExpenseData }) => {
       <button onClick={handleLogout}>logout</button>
       {error && <p>{error}</p>}
       <p>Email: </p>
-      {/* <p>{currentUser.email}</p> */}
+      <p>{currentUser.email}</p>
       <Link href="/update-profile"> Update your email and password </Link>;
       <h1>work with expenses</h1>
       {/* <AddExpense /> */}
@@ -80,6 +100,7 @@ export const Expenses = ({ fbExpenseData }) => {
         <input type="number" placeholder="price" />
         <button
           onClick={() => {
+            handleButton();
             // createExpense();
             // following was active:
             // createPersonalExpense();
@@ -121,7 +142,13 @@ export const Expenses = ({ fbExpenseData }) => {
 // ! ServerSide
 // !           //
 
+/*
 export const getServerSideProps = async (pageContext) => {
+  // ! PROBLEM: This is running server side. This means I don't have access to the User id. Need to research how. 
+  // ! For now, I'm moving the retrieval of the API data into the react component.
+
+
+
   // a sub collection from a specific user
   const userExpensesCollectionRef = collection(
     db,
@@ -150,5 +177,6 @@ export const getServerSideProps = async (pageContext) => {
     },
   };
 };
+*/
 
 export default Expenses;

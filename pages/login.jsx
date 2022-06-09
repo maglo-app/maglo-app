@@ -4,6 +4,7 @@ import { useRef } from "react";
 import { useAuth } from "../Contexts/AuthContext";
 // import { Link, useNavigate } from "react-router-dom";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 export const Login = (props) => {
   // ! Refs and State
@@ -12,6 +13,7 @@ export const Login = (props) => {
   const { login, currentUser } = useAuth();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
   //   const navigate = useNavigate();
 
   // ! Handle Submit Button
@@ -24,7 +26,7 @@ export const Login = (props) => {
       setLoading(true); // disable the button when signup up a user so they don't acceidentally create multiple accounts
       await login(emailRef.current.value, passwordRef.current.value);
       console.log("succesfully logged in");
-      <Link href="/expenses"> </Link>;
+      router.push("/expenses");
       // Add the user to to the database either here or in the Authcontroller. Probably in the auth provider.
     } catch (err) {
       setError("Failed to sign in");
@@ -63,8 +65,14 @@ export const Login = (props) => {
         </button>
       </form>
       <p>Need an account?</p>
-      <Link href="/signup"> Signup </Link>;<p>Forgot password?</p>
-      <Link href="/forgot-password"> Forgot </Link>;
+      <Link href="/signup">
+        <p className="Link">Signup</p>
+      </Link>
+      ;<p>Forgot password?</p>
+      <Link href="/forgot-password">
+        <p className="Link">Forgot</p>
+      </Link>
+      ;
     </div>
   );
 };

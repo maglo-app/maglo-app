@@ -3,6 +3,7 @@ import { useRef } from "react";
 import { useAuth } from "../Contexts/AuthContext";
 // import { Link, useNavigate } from "react-router-dom"; Before with React
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 export const Signup = (props) => {
   // ! definitions and imports
@@ -13,6 +14,7 @@ export const Signup = (props) => {
   const { signup, currentUser, addUserToFireStore } = useAuth();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
   //   const navigate = useNavigate(); Before with React
 
   // ! handle submit function
@@ -33,7 +35,7 @@ export const Signup = (props) => {
       await addUserToFireStore();
       console.log("user was added to firestore");
 
-      <Link href="/expenses"> </Link>;
+      router.push("/expenses");
       //   navigate("/expenses");
     } catch (err) {
       setError("Failed to create an account");
@@ -81,7 +83,9 @@ export const Signup = (props) => {
         </button>
       </form>
       <p>Already have an account?</p>
-      <Link href="/login"> Login </Link>
+      <Link href="/login">
+        <p className="Link">Login</p>
+      </Link>
       {/* <Link to="/login">Login</Link> Before with React */}
     </div>
   );
