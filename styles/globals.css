@@ -14,3 +14,16 @@ a {
 * {
   box-sizing: border-box;
 }
+
+/* Link {
+  color: red;
+  background-color: pink;
+} */
+
+.Link {
+  color: red;
+}
+
+.Link:hover {
+  cursor: pointer;
+}
