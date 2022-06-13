@@ -80,6 +80,8 @@ export function AuthProvider({ children }) {
   }
 
   useEffect(() => {
+    // this is important to keep the user logged in. Need to research what it does exactly
+    // does react remember a set state across reloads?
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setCurrentUser(user);
       setLoading(false);
@@ -90,6 +92,7 @@ export function AuthProvider({ children }) {
 
     // unsubscribe when we unmount
     return unsubscribe;
+    // eslint-disable-next-line
   }, []);
 
   const value = {

@@ -12,16 +12,18 @@ export const Expenses = (props) => {
   const [error, setError] = useState("");
   const { currentUser, logout } = useAuth();
   const router = useRouter();
-  console.log("Current User Email");
-  console.log(currentUser);
+  // console.log("Current User Email");
+  // console.log(currentUser);
   //   const [userData, setUserData] = useState({ expenses: [] });
   const [userExpenses, setUserExpenses] = useState([]);
-  const userExpensesCollectionRef = collection(
-    db,
-    "users",
-    currentUser.uid,
-    "userExpenses"
-  );
+
+  // @ BAD: I've moved the collection into functions below because currentUser.uid is not defined at load yet when not logged in. (e.g. log out) -> needs to be done better
+  // const userExpensesCollectionRef = collection(
+  //   db,
+  //   "users",
+  //   currentUser.uid,
+  //   "userExpenses"
+  // );
 
   // ! handle Logout
   async function handleLogout() {
@@ -37,8 +39,19 @@ export const Expenses = (props) => {
   }
 
   async function handleLoad() {
+    // don't load if there is no current user
+    if (!currentUser) return;
+
+    const userExpensesCollectionRef = collection(
+      db,
+      "users",
+      currentUser.uid,
+      "userExpenses"
+    );
+
     // @ retrieving Data
     // @ This could be done server sided but I need to figure out how to get access to the currentUser.uid there to access the right doc
+
     const fireBaseResponse = await getDocs(userExpensesCollectionRef);
     const fbExpenseData = fireBaseResponse.docs.map((el) => {
       return { ...el.data(), id: el.id };
@@ -53,6 +66,13 @@ export const Expenses = (props) => {
   }
 
   async function handleButton() {
+    const userExpensesCollectionRef = collection(
+      db,
+      "users",
+      currentUser.uid,
+      "userExpenses"
+    );
+
     await addDoc(userExpensesCollectionRef, {
       business: newBusiness,
       name: newName,
@@ -62,21 +82,35 @@ export const Expenses = (props) => {
 
   // ! use effect to get the data from the api
   useEffect(() => {
-    console.log("useState is running");
+    console.log("useState is running before if statement");
+    if (currentUser) {
+      console.log("signed In");
+    } else if (currentUser == null) {
+      router.push("/login");
+    }
+
+    console.log("useState is running and moved passed if statement");
     // getExpenses();
     // getExpensesUser();
     handleLoad();
-  }, []);
+  }, [currentUser]);
 
   // !    //
   // ! JSX
   // !    //
+
+  if (!currentUser) {
+    // user is signed out or still being checked.
+    // don't render anything
+    return null;
+  }
+
   return (
     <div className="Expenses__ctn">
       <button onClick={handleLogout}>logout</button>
       {error && <p>{error}</p>}
       <p>Email: </p>
-      <p>{currentUser.email}</p>
+      {currentUser && <p>{currentUser.email}</p>}
       <Link href="/update-profile"> Update your email and password </Link>;
       <h1>work with expenses</h1>
       {/* <AddExpense /> */}
