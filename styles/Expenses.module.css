@@ -1,0 +1,82 @@
+.main {
+  position: relative;
+}
+
+.expenses__ctn {
+  margin: 40px 40px 40px 40px;
+}
+
+.expenses__menuBar {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding-top: 20px;
+  border-bottom: 1px solid grey;
+}
+
+.searchInput {
+  background-color: #f8f8f8;
+}
+
+/* oneExpense */
+.oneExpense__ctn {
+  margin-top: 100px;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  /* flex-grow: 1; */
+}
+
+/* https://www.youtube.com/watch?v=vQAvjof1oe4 */
+.oneExpense__ctn > * {
+  flex-basis: 100%;
+}
+
+/* modal css */
+
+.modal__ctn {
+  position: absolute;
+  top: 0%;
+  /* background: black;
+  opacity: 30%; */
+  background-color: rgba(0, 0, 0, 0.5);
+  height: 100vh;
+  width: 100vw;
+}
+
+.modal__card__ctn {
+  /* opacity: 100%; */
+  width: 30%;
+  height: 90%;
+  z-index: 100;
+  background: white;
+  border-radius: 14px;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  padding: 20px 20px 20px 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.modal__card__form {
+  display: flex;
+  flex-direction: column;
+}
+
+.addButton {
+  margin-top: 50px;
+}
+
+.datePicker {
+  color: rgba(78, 93, 120, 0.6);
+}
+
+.dropDownList {
+  font-family: "Kumbh Sans", sans-serif;
+  font-size: 14;
+  color: rgba(78, 93, 120, 0.6);
+}
